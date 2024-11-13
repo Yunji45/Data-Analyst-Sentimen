@@ -1,0 +1,39 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}10 Instruktur Terbaik{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm p-3">
+                <div class="card-header text-center" style="font-size: 1.5rem; font-weight: bold;">
+                    10 Instruktur Terbaik
+                </div>
+                <div class="card-body text-center">
+                    <p class="text-muted">Daftar Instruktur Terbaik Berdasarkan Skor dan Ulasan Sentimen</p>
+                    
+                    <!-- Display Instructor Table -->
+                    <div class="table-responsive mb-3">
+                        <h5 class="text-center">Tabel Rincian Instruktur</h5>
+                        {% if top_instructors %}
+                            {{ top_instructors | safe }}
+                        {% else %}
+                            <p class="text-muted">Data tidak tersedia.</p>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Render the Plotly Chart -->
+                    {% if plot_url5 %}
+                        <div class="mt-3">
+                            {{ plot_url5 | safe }}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Data grafik tidak tersedia.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
