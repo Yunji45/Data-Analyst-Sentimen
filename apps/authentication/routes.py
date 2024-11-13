@@ -16,6 +16,7 @@ from apps import db, login_manager
 from apps.authentication import blueprint
 from apps.authentication.forms import LoginForm, CreateAccountForm
 from apps.authentication.models import Users
+from apps.authentication.models import Pembelajaran
 
 from apps.authentication.util import verify_pass
 
@@ -130,3 +131,64 @@ def not_found_error(error):
 @blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500
+
+#evaluasi
+@blueprint.route('/evaluasi/tambah', methods=['GET', 'POST'])
+def add_pembelajaran():
+    form = PembelajaranForm(request.form)
+    if request.method == 'POST' and form.validate():
+        pembelajaran = Pembelajaran(
+            kode_pembelajaran=form.kode_pembelajaran.data,
+            judul_pembelajaran=form.judul_pembelajaran.data,
+            periode=form.periode.data,
+            nama_instruktur=form.nama_instruktur.data,
+            tanggal_mulai=form.tanggal_mulai.data,
+            tanggal_selesai=form.tanggal_selesai.data,
+            waktu=form.waktu.data,
+            penampilan=form.penampilan.data,
+            pengenalan=form.pengenalan.data,
+            membangun_suasana=form.membangun_suasana.data,
+            penguasaan_materi=form.penguasaan_materi.data,
+            penyampaian_materi=form.penyampaian_materi.data
+        )
+        db.session.add(pembelajaran)
+        db.session.commit()
+        return redirect(url_for('authentication_blueprint.pembelajaran_list'))
+    return render_template('pembelajaran/add.html', form=form)
+
+
+@blueprint.route('/evaluasi', methods=['GET'])
+def pembelajaran_list():
+    pembelajarans = Pembelajaran.query.all()
+    return render_template('evaluasi/list.html', pembelajarans=pembelajarans)
+
+
+@blueprint.route('/evaluasi/edit/<int:id>', methods=['GET', 'POST'])
+def edit_pembelajaran(id):
+    pembelajaran = Pembelajaran.query.get_or_404(id)
+    form = PembelajaranForm(obj=pembelajaran)
+    if request.method == 'POST' and form.validate():
+        pembelajaran.kode_pembelajaran = form.kode_pembelajaran.data
+        pembelajaran.judul_pembelajaran = form.judul_pembelajaran.data
+        pembelajaran.periode = form.periode.data
+        pembelajaran.nama_instruktur = form.nama_instruktur.data
+        pembelajaran.tanggal_mulai = form.tanggal_mulai.data
+        pembelajaran.tanggal_selesai = form.tanggal_selesai.data
+        pembelajaran.waktu = form.waktu.data
+        pembelajaran.penampilan = form.penampilan.data
+        pembelajaran.pengenalan = form.pengenalan.data
+        pembelajaran.membangun_suasana = form.membangun_suasana.data
+        pembelajaran.penguasaan_materi = form.penguasaan_materi.data
+        pembelajaran.penyampaian_materi = form.penyampaian_materi.data
+        pembelajaran.hitung_rata_rata()  # Menghitung rata-rata penilaian
+        db.session.commit()
+        return redirect(url_for('authentication_blueprint.pembelajaran_list'))
+    return render_template('pembelajaran/edit.html', form=form, pembelajaran=pembelajaran)
+
+
+@blueprint.route('/evaluasi/hapus/<int:id>', methods=['POST'])
+def delete_pembelajaran(id):
+    pembelajaran = Pembelajaran.query.get_or_404(id)
+    db.session.delete(pembelajaran)
+    db.session.commit()
+    return redirect(url_for('authentication_blueprint.pembelajaran_list'))
