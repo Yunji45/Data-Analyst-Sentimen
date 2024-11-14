@@ -45,9 +45,144 @@ def analyze_sentiment(text):
     else:
         return "Netral"
 
+# @blueprint.route('/upload', methods=['GET', 'POST'])
+# def upload_data():
+#     processed_data = {}
+#     if request.method == 'POST':
+#         file_csv = request.files.get('file_csv')
+#         file_excel = request.files.get('file_excel')
+
+#         if file_csv and file_excel:
+#             # Load CSV and Excel data
+#             data_feedback = pd.read_csv(file_csv)
+#             data_instructor = pd.read_excel(file_excel, header=3)
+
+#             # Define column names
+#             sentiment_column = 'Komentar Terbuka'
+#             post_test_average_column = 'N Rata2'
+#             instructor_quality_column = 'RATA-RATA PER INSTRUKTUR'
+#             instructor_name_column = 'NAMA INSTRUKTUR'
+
+#             # Sentiment Analysis on Feedback Comments
+#             if sentiment_column in data_feedback.columns:
+#                 data_feedback['Sentimen'] = data_feedback[sentiment_column].apply(analyze_sentiment)
+#                 sentiment_counts = data_feedback['Sentimen'].value_counts()
+
+#                 fig1 = px.pie(
+#                     names=sentiment_counts.index, 
+#                     values=sentiment_counts.values, 
+#                     title="Distribusi Sentimen Komentar Terbuka",
+#                     color=sentiment_counts.index, 
+#                     color_discrete_sequence=px.colors.qualitative.Set3
+#                 )
+#                 plot_url1 = pio.to_html(fig1, full_html=False)
+#                 processed_data['sentiment_counts'] = sentiment_counts.to_dict()
+#                 processed_data['plot_url1'] = plot_url1
+
+#             # Store data_feedback for further use
+#             processed_data['data_feedback'] = data_feedback
+
+#             # Top and Bottom Materials and Popularity Analysis
+#             if post_test_average_column in data_feedback.columns:
+#                 data_feedback[post_test_average_column] = pd.to_numeric(data_feedback[post_test_average_column], errors='coerce')
+#                 data_feedback.dropna(subset=[post_test_average_column], inplace=True)
+
+#                 grouped_materials = data_feedback.groupby(['Judul Diklat'])[post_test_average_column].mean().reset_index()
+#                 top_materials = grouped_materials.sort_values(by=post_test_average_column, ascending=False).head(10)
+#                 bottom_materials = grouped_materials.sort_values(by=post_test_average_column).head(10)
+#                 popular_materials = data_feedback['Judul Diklat'].value_counts().head(10).reset_index(name='Jumlah Peserta').rename(columns={'index': 'Judul Diklat'})
+
+#                 # Plotly charts for top, bottom, and popular materials
+#                 fig2 = px.bar(
+#                     top_materials, 
+#                     x=post_test_average_column, 
+#                     y='Judul Diklat', 
+#                     orientation='h', 
+#                     title="10 Materi Pembelajaran Terbaik",
+#                     color=post_test_average_column,  # Warna berdasarkan nilai
+#                     color_continuous_scale='Viridis',  # Skala warna yang lebih menarik
+#                     labels={post_test_average_column: 'Nilai Rata-Rata', 'Judul Diklat': 'Materi Pembelajaran'}
+#                 )
+#                 plot_url2 = pio.to_html(fig2, full_html=False)
+
+#                 fig3 = px.bar(
+#                     bottom_materials, 
+#                     x=post_test_average_column, 
+#                     y='Judul Diklat', 
+#                     orientation='h', 
+#                     title="10 Materi Pembelajaran Perlu Perbaikan",
+#                     color=post_test_average_column,
+#                     color_continuous_scale='RdYlGn',
+#                     labels={post_test_average_column: 'Nilai Rata-Rata', 'Judul Diklat': 'Materi Pembelajaran'}
+#                 )
+#                 plot_url3 = pio.to_html(fig3, full_html=False)
+
+#                 fig4 = px.bar(
+#                     popular_materials, 
+#                     x='Jumlah Peserta', 
+#                     y='Judul Diklat', 
+#                     orientation='h', 
+#                     title="Materi Pembelajaran Terpopuler",
+#                     color='Jumlah Peserta',
+#                     color_continuous_scale='Blues',
+#                     labels={'Jumlah Peserta': 'Jumlah Peserta', 'Judul Diklat': 'Materi Pembelajaran'}
+#                 )
+#                 plot_url4 = pio.to_html(fig4, full_html=False)
+
+#                 # Store results
+#                 processed_data.update({
+#                     'top_materials': top_materials,
+#                     'plot_url2': plot_url2,
+#                     'bottom_materials': bottom_materials,
+#                     'plot_url3': plot_url3,
+#                     'popular_materials': popular_materials,
+#                     'plot_url4': plot_url4,
+#                 })
+
+#             # Top Instructors Analysis
+#             if instructor_quality_column in data_instructor.columns and instructor_name_column in data_instructor.columns:
+#                 data_instructor[instructor_quality_column] = pd.to_numeric(data_instructor[instructor_quality_column], errors='coerce')
+#                 data_instructor.dropna(subset=[instructor_quality_column], inplace=True)
+
+#                 # Calculate the top 10 instructors based on average score
+#                 top_instructors = data_instructor.groupby(instructor_name_column)[instructor_quality_column].mean().reset_index().sort_values(by=instructor_quality_column, ascending=False).head(10)
+
+#                 # Prepare detailed instructor table with training period, but only for the top 10 instructors
+#                 instructor_table = data_instructor[data_instructor[instructor_name_column].isin(top_instructors[instructor_name_column])]
+#                 instructor_table = instructor_table[['NAMA INSTRUKTUR', 'RATA-RATA PER INSTRUKTUR', 'JUDUL PEMBELAJARAN', 'PERIODE', 'Unnamed: 4']].copy()
+#                 instructor_table.columns = ['Nama Instruktur', 'Rata-Rata Per Instruktur', 'Judul Pembelajaran', 'Tanggal Mulai', 'Tanggal Selesai']
+#                 instructor_table.dropna(subset=['Nama Instruktur', 'Rata-Rata Per Instruktur'], inplace=True)
+
+#                 # Sort instructor_table by 'Rata-Rata Per Instruktur' in descending order for ranking
+#                 instructor_table = instructor_table.sort_values(by='Rata-Rata Per Instruktur', ascending=False).reset_index(drop=True)
+#                 instructor_table.index += 1  # Start numbering from 1 for ranking display
+
+#                 # Convert to HTML, displaying only the top 10 instructors
+#                 instructor_table_html = instructor_table.to_html(index=True, classes="table table-striped table-bordered", header=True)
+
+#                 # Plotly bar chart for instructors
+#                 fig5 = px.bar(
+#                     top_instructors, 
+#                     x=instructor_quality_column, 
+#                     y=instructor_name_column, 
+#                     orientation='h', 
+#                     title="10 Instruktur Terbaik",
+#                     color=instructor_quality_column,
+#                     color_continuous_scale='YlGnBu',
+#                     labels={instructor_quality_column: 'Nilai Rata-Rata Instruktur', 'NAMA INSTRUKTUR': 'Nama Instruktur'}
+#                 )
+#                 plot_url5 = pio.to_html(fig5, full_html=False)
+
+#                 # Store top instructors data
+#                 processed_data.update({
+#                     'top_instructors': instructor_table_html,
+#                     'plot_url5': plot_url5,
+#                 })
+    
+#     return render_template('home/upload.html', processed_data=processed_data)
+    
 @blueprint.route('/upload', methods=['GET', 'POST'])
 def upload_data():
-    processed_data = {}
     if request.method == 'POST':
         file_csv = request.files.get('file_csv')
         file_excel = request.files.get('file_excel')
@@ -67,7 +202,6 @@ def upload_data():
             if sentiment_column in data_feedback.columns:
                 data_feedback['Sentimen'] = data_feedback[sentiment_column].apply(analyze_sentiment)
                 sentiment_counts = data_feedback['Sentimen'].value_counts()
-
                 fig1 = px.pie(
                     names=sentiment_counts.index, 
                     values=sentiment_counts.values, 
@@ -75,6 +209,8 @@ def upload_data():
                     color=sentiment_counts.index, 
                     color_discrete_sequence=px.colors.qualitative.Set3
                 )
+
+                # fig1 = px.pie(names=sentiment_counts.index, values=sentiment_counts.values, title="Distribusi Sentimen Komentar Terbuka")
                 plot_url1 = pio.to_html(fig1, full_html=False)
                 processed_data['sentiment_counts'] = sentiment_counts.to_dict()
                 processed_data['plot_url1'] = plot_url1
@@ -92,7 +228,7 @@ def upload_data():
                 bottom_materials = grouped_materials.sort_values(by=post_test_average_column).head(10)
                 popular_materials = data_feedback['Judul Diklat'].value_counts().head(10).reset_index(name='Jumlah Peserta').rename(columns={'index': 'Judul Diklat'})
 
-                # Plotly charts for top, bottom, and popular materials
+                # Plotly charts
                 fig2 = px.bar(
                     top_materials, 
                     x=post_test_average_column, 
@@ -103,8 +239,11 @@ def upload_data():
                     color_continuous_scale='Viridis',  # Skala warna yang lebih menarik
                     labels={post_test_average_column: 'Nilai Rata-Rata', 'Judul Diklat': 'Materi Pembelajaran'}
                 )
+
+                # fig2 = px.bar(top_materials, x=post_test_average_column, y='Judul Diklat', orientation='h', title="10 Materi Pembelajaran Terbaik")
                 plot_url2 = pio.to_html(fig2, full_html=False)
 
+                # fig3 = px.bar(bottom_materials, x=post_test_average_column, y='Judul Diklat', orientation='h', title="10 Materi Pembelajaran Perlu Perbaikan")
                 fig3 = px.bar(
                     bottom_materials, 
                     x=post_test_average_column, 
@@ -117,6 +256,7 @@ def upload_data():
                 )
                 plot_url3 = pio.to_html(fig3, full_html=False)
 
+                # fig4 = px.bar(popular_materials, x='Jumlah Peserta', y='Judul Diklat', orientation='h', title="Materi Pembelajaran Terpopuler")
                 fig4 = px.bar(
                     popular_materials, 
                     x='Jumlah Peserta', 
@@ -143,7 +283,7 @@ def upload_data():
             if instructor_quality_column in data_instructor.columns and instructor_name_column in data_instructor.columns:
                 data_instructor[instructor_quality_column] = pd.to_numeric(data_instructor[instructor_quality_column], errors='coerce')
                 data_instructor.dropna(subset=[instructor_quality_column], inplace=True)
-
+                
                 # Calculate the top 10 instructors based on average score
                 top_instructors = data_instructor.groupby(instructor_name_column)[instructor_quality_column].mean().reset_index().sort_values(by=instructor_quality_column, ascending=False).head(10)
 
@@ -152,15 +292,16 @@ def upload_data():
                 instructor_table = instructor_table[['NAMA INSTRUKTUR', 'RATA-RATA PER INSTRUKTUR', 'JUDUL PEMBELAJARAN', 'PERIODE', 'Unnamed: 4']].copy()
                 instructor_table.columns = ['Nama Instruktur', 'Rata-Rata Per Instruktur', 'Judul Pembelajaran', 'Tanggal Mulai', 'Tanggal Selesai']
                 instructor_table.dropna(subset=['Nama Instruktur', 'Rata-Rata Per Instruktur'], inplace=True)
-
+                
                 # Sort instructor_table by 'Rata-Rata Per Instruktur' in descending order for ranking
                 instructor_table = instructor_table.sort_values(by='Rata-Rata Per Instruktur', ascending=False).reset_index(drop=True)
                 instructor_table.index += 1  # Start numbering from 1 for ranking display
-
+                
                 # Convert to HTML, displaying only the top 10 instructors
                 instructor_table_html = instructor_table.to_html(index=True, classes="table table-striped table-bordered", header=True)
 
-                # Plotly bar chart for instructors
+                # Plotly bar chart
+                # fig5 = px.bar(top_instructors, x=instructor_quality_column, y=instructor_name_column, orientation='h', title="10 Instruktur Terbaik")
                 fig5 = px.bar(
                     top_instructors, 
                     x=instructor_quality_column, 
@@ -171,6 +312,7 @@ def upload_data():
                     color_continuous_scale='YlGnBu',
                     labels={instructor_quality_column: 'Nilai Rata-Rata Instruktur', 'NAMA INSTRUKTUR': 'Nama Instruktur'}
                 )
+
                 plot_url5 = pio.to_html(fig5, full_html=False)
 
                 # Store top instructors data
@@ -178,98 +320,7 @@ def upload_data():
                     'top_instructors': instructor_table_html,
                     'plot_url5': plot_url5,
                 })
-    
     return render_template('home/upload.html', processed_data=processed_data)
-# @blueprint.route('/upload', methods=['GET', 'POST'])
-# def upload_data():
-#     if request.method == 'POST':
-#         file_csv = request.files.get('file_csv')
-#         file_excel = request.files.get('file_excel')
-
-#         if file_csv and file_excel:
-#             # Load CSV and Excel data
-#             data_feedback = pd.read_csv(file_csv)
-#             data_instructor = pd.read_excel(file_excel, header=3)
-
-#             # Define column names
-#             sentiment_column = 'Komentar Terbuka'
-#             post_test_average_column = 'N Rata2'
-#             instructor_quality_column = 'RATA-RATA PER INSTRUKTUR'
-#             instructor_name_column = 'NAMA INSTRUKTUR'
-
-#             # Sentiment Analysis on Feedback Comments
-#             if sentiment_column in data_feedback.columns:
-#                 data_feedback['Sentimen'] = data_feedback[sentiment_column].apply(analyze_sentiment)
-#                 sentiment_counts = data_feedback['Sentimen'].value_counts()
-#                 fig1 = px.pie(names=sentiment_counts.index, values=sentiment_counts.values, title="Distribusi Sentimen Komentar Terbuka")
-#                 plot_url1 = pio.to_html(fig1, full_html=False)
-#                 processed_data['sentiment_counts'] = sentiment_counts.to_dict()
-#                 processed_data['plot_url1'] = plot_url1
-
-#             # Store data_feedback for further use
-#             processed_data['data_feedback'] = data_feedback
-
-#             # Top and Bottom Materials and Popularity Analysis
-#             if post_test_average_column in data_feedback.columns:
-#                 data_feedback[post_test_average_column] = pd.to_numeric(data_feedback[post_test_average_column], errors='coerce')
-#                 data_feedback.dropna(subset=[post_test_average_column], inplace=True)
-
-#                 grouped_materials = data_feedback.groupby(['Judul Diklat'])[post_test_average_column].mean().reset_index()
-#                 top_materials = grouped_materials.sort_values(by=post_test_average_column, ascending=False).head(10)
-#                 bottom_materials = grouped_materials.sort_values(by=post_test_average_column).head(10)
-#                 popular_materials = data_feedback['Judul Diklat'].value_counts().head(10).reset_index(name='Jumlah Peserta').rename(columns={'index': 'Judul Diklat'})
-
-#                 # Plotly charts
-#                 fig2 = px.bar(top_materials, x=post_test_average_column, y='Judul Diklat', orientation='h', title="10 Materi Pembelajaran Terbaik")
-#                 plot_url2 = pio.to_html(fig2, full_html=False)
-
-#                 fig3 = px.bar(bottom_materials, x=post_test_average_column, y='Judul Diklat', orientation='h', title="10 Materi Pembelajaran Perlu Perbaikan")
-#                 plot_url3 = pio.to_html(fig3, full_html=False)
-
-#                 fig4 = px.bar(popular_materials, x='Jumlah Peserta', y='Judul Diklat', orientation='h', title="Materi Pembelajaran Terpopuler")
-#                 plot_url4 = pio.to_html(fig4, full_html=False)
-
-#                 # Store results
-#                 processed_data.update({
-#                     'top_materials': top_materials,
-#                     'plot_url2': plot_url2,
-#                     'bottom_materials': bottom_materials,
-#                     'plot_url3': plot_url3,
-#                     'popular_materials': popular_materials,
-#                     'plot_url4': plot_url4,
-#                 })
-
-#             # Top Instructors Analysis
-#             if instructor_quality_column in data_instructor.columns and instructor_name_column in data_instructor.columns:
-#                 data_instructor[instructor_quality_column] = pd.to_numeric(data_instructor[instructor_quality_column], errors='coerce')
-#                 data_instructor.dropna(subset=[instructor_quality_column], inplace=True)
-                
-#                 # Calculate the top 10 instructors based on average score
-#                 top_instructors = data_instructor.groupby(instructor_name_column)[instructor_quality_column].mean().reset_index().sort_values(by=instructor_quality_column, ascending=False).head(10)
-
-#                 # Prepare detailed instructor table with training period, but only for the top 10 instructors
-#                 instructor_table = data_instructor[data_instructor[instructor_name_column].isin(top_instructors[instructor_name_column])]
-#                 instructor_table = instructor_table[['NAMA INSTRUKTUR', 'RATA-RATA PER INSTRUKTUR', 'JUDUL PEMBELAJARAN', 'PERIODE', 'Unnamed: 4']].copy()
-#                 instructor_table.columns = ['Nama Instruktur', 'Rata-Rata Per Instruktur', 'Judul Pembelajaran', 'Tanggal Mulai', 'Tanggal Selesai']
-#                 instructor_table.dropna(subset=['Nama Instruktur', 'Rata-Rata Per Instruktur'], inplace=True)
-                
-#                 # Sort instructor_table by 'Rata-Rata Per Instruktur' in descending order for ranking
-#                 instructor_table = instructor_table.sort_values(by='Rata-Rata Per Instruktur', ascending=False).reset_index(drop=True)
-#                 instructor_table.index += 1  # Start numbering from 1 for ranking display
-                
-#                 # Convert to HTML, displaying only the top 10 instructors
-#                 instructor_table_html = instructor_table.to_html(index=True, classes="table table-striped table-bordered", header=True)
-
-#                 # Plotly bar chart
-#                 fig5 = px.bar(top_instructors, x=instructor_quality_column, y=instructor_name_column, orientation='h', title="10 Instruktur Terbaik")
-#                 plot_url5 = pio.to_html(fig5, full_html=False)
-
-#                 # Store top instructors data
-#                 processed_data.update({
-#                     'top_instructors': instructor_table_html,
-#                     'plot_url5': plot_url5,
-#                 })
-#     return render_template('home/upload.html', processed_data=processed_data)
 
 @blueprint.route('/sentiment_analysis')
 def sentiment_analysis():
