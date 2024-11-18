@@ -110,7 +110,10 @@
         </p>
       </li>
       <li class="nav-item {% if 'dashboard' in segment %} active {% endif %}">
-        <a href="/dashboard.html" class="nav-link">
+        <a
+          class="nav-link"
+          href="{{ url_for('authentication_blueprint.upload_data_page') }}"
+        >
           <span class="sidebar-icon">
             <svg
               class="icon icon-xs me-2"
@@ -148,7 +151,7 @@
                 ></path>
               </svg>
             </span>
-            <span class="sidebar-text">Data Sentimen</span>
+            <span class="sidebar-text">Sentiments Data</span>
           </span>
           <span class="link-arrow">
             <svg
@@ -179,7 +182,7 @@
                 class="nav-link"
                 href="{{ url_for('authentication_blueprint.top_materials_page') }}"
               >
-                <span class="sidebar-text">Data 10 Materi Terbaik</span>
+                <span class="sidebar-text">Best Learning</span>
               </a>
             </li>
           </ul>
@@ -199,7 +202,7 @@
                 class="nav-link"
                 href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
               >
-                <span class="sidebar-text">Materi Terpopuler</span>
+                <span class="sidebar-text">Most Pupular Learning</span>
               </a>
             </li>
           </ul>
@@ -219,7 +222,7 @@
                 class="nav-link"
                 href="{{ url_for('authentication_blueprint.top_instructors_page') }}"
               >
-                <span class="sidebar-text">10 Instruktur Terbaik</span>
+                <span class="sidebar-text">Popular Instructors</span>
               </a>
             </li>
           </ul>
