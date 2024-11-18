@@ -92,8 +92,12 @@
       </div>
     </div>
     <ul class="nav flex-column pt-3 pt-md-0">
-      <li class="nav-item">
-        <a href="/" class="nav-link d-flex align-items-center">
+      <li>
+        <p
+          href="#"
+          class="d-flex align-items-center"
+          style="padding-left: 15px"
+        >
           <span class="sidebar-icon">
             <img
               src="{{ config.ASSETS_ROOT }}/img/logo-md.png"
@@ -103,7 +107,7 @@
             />
           </span>
           <span class="mt-1 ms-1 sidebar-text">InsghtLab PLN</span>
-        </a>
+        </p>
       </li>
       <li class="nav-item {% if 'dashboard' in segment %} active {% endif %}">
         <a href="/dashboard.html" class="nav-link">
@@ -180,6 +184,7 @@
             </li>
           </ul>
         </div>
+
         <div
           class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
           role="list"
@@ -190,14 +195,37 @@
             <li
               class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
             >
-              <a class="nav-link" href="/tables-bootstrap-tables.html">
-                <span class="sidebar-text">Bootstrap Tables</span>
+              <a
+                class="nav-link"
+                href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
+              >
+                <span class="sidebar-text">Materi Terpopuler</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div
+          class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+          role="list"
+          id="submenu-app"
+          aria-expanded="false"
+        >
+          <ul class="flex-column nav">
+            <li
+              class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
+            >
+              <a
+                class="nav-link"
+                href="{{ url_for('authentication_blueprint.top_instructors_page') }}"
+              >
+                <span class="sidebar-text">10 Instruktur Terbaik</span>
               </a>
             </li>
           </ul>
         </div>
       </li>
-      <li class="nav-item {% if 'page-' in segment %} active {% endif %}">
+      <!-- <li class="nav-item {% if 'page-' in segment %} active {% endif %}">
         <span
           class="nav-link collapsed d-flex justify-content-between align-items-center"
           data-bs-toggle="collapse"
@@ -280,8 +308,8 @@
             </li>
           </ul>
         </div>
-      </li>
-      <li class="nav-item {% if 'components-' in segment %} active {% endif %}">
+      </li> -->
+      <!-- <li class="nav-item {% if 'components-' in segment %} active {% endif %}">
         <span
           class="nav-link collapsed d-flex justify-content-between align-items-center"
           data-bs-toggle="collapse"
@@ -364,7 +392,7 @@
             </li>
           </ul>
         </div>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a
           target="_blank"
