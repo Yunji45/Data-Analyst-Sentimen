@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for
+from flask import Flask,render_template, redirect, request, url_for
 from flask_login import (
     current_user,
     login_user,
@@ -23,6 +23,8 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import io
+import plotly.express as px
+import plotly.io as pio
 import base64
 import plotly.express as px
 import plotly.io as pio
@@ -42,7 +44,7 @@ def analyze_sentiment(text):
         return "Negatif"
     else:
         return "Netral"
-
+    
 @blueprint.route('/upload', methods=['GET', 'POST'])
 def upload_data():
     if request.method == 'POST':
@@ -64,7 +66,15 @@ def upload_data():
             if sentiment_column in data_feedback.columns:
                 data_feedback['Sentimen'] = data_feedback[sentiment_column].apply(analyze_sentiment)
                 sentiment_counts = data_feedback['Sentimen'].value_counts()
-                fig1 = px.pie(names=sentiment_counts.index, values=sentiment_counts.values, title="Distribusi Sentimen Komentar Terbuka")
+                fig1 = px.pie(
+                    names=sentiment_counts.index, 
+                    values=sentiment_counts.values, 
+                    # title="Distribusi Sentimen Komentar Terbuka",
+                    color=sentiment_counts.index, 
+                    color_discrete_sequence=px.colors.qualitative.Set3
+                )
+
+                # fig1 = px.pie(names=sentiment_counts.index, values=sentiment_counts.values, title="Distribusi Sentimen Komentar Terbuka")
                 plot_url1 = pio.to_html(fig1, full_html=False)
                 processed_data['sentiment_counts'] = sentiment_counts.to_dict()
                 processed_data['plot_url1'] = plot_url1
@@ -83,13 +93,43 @@ def upload_data():
                 popular_materials = data_feedback['Judul Diklat'].value_counts().head(10).reset_index(name='Jumlah Peserta').rename(columns={'index': 'Judul Diklat'})
 
                 # Plotly charts
-                fig2 = px.bar(top_materials, x=post_test_average_column, y='Judul Diklat', orientation='h', title="10 Materi Pembelajaran Terbaik")
+                fig2 = px.bar(
+                    top_materials, 
+                    x=post_test_average_column, 
+                    y='Judul Diklat', 
+                    orientation='h', 
+                    # title="10 Materi Pembelajaran Terbaik",
+                    color=post_test_average_column,  # Warna berdasarkan nilai
+                    color_continuous_scale='Viridis',  # Skala warna yang lebih menarik
+                    labels={post_test_average_column: 'Nilai Rata-Rata', 'Judul Diklat': 'Materi Pembelajaran'}
+                )
+                # fig2 = px.bar(top_materials, x=post_test_average_column, y='Judul Diklat', orientation='h', title="10 Materi Pembelajaran Terbaik")
                 plot_url2 = pio.to_html(fig2, full_html=False)
 
-                fig3 = px.bar(bottom_materials, x=post_test_average_column, y='Judul Diklat', orientation='h', title="10 Materi Pembelajaran Perlu Perbaikan")
+                # fig3 = px.bar(bottom_materials, x=post_test_average_column, y='Judul Diklat', orientation='h', title="10 Materi Pembelajaran Perlu Perbaikan")
+                fig3 = px.bar(
+                    bottom_materials, 
+                    x=post_test_average_column, 
+                    y='Judul Diklat', 
+                    orientation='h', 
+                    # title="10 Materi Pembelajaran Perlu Perbaikan",
+                    color=post_test_average_column,
+                    color_continuous_scale='RdYlGn',
+                    labels={post_test_average_column: 'Nilai Rata-Rata', 'Judul Diklat': 'Materi Pembelajaran'}
+                )
                 plot_url3 = pio.to_html(fig3, full_html=False)
 
-                fig4 = px.bar(popular_materials, x='Jumlah Peserta', y='Judul Diklat', orientation='h', title="Materi Pembelajaran Terpopuler")
+                # fig4 = px.bar(popular_materials, x='Jumlah Peserta', y='Judul Diklat', orientation='h', title="Materi Pembelajaran Terpopuler")
+                fig4 = px.bar(
+                    popular_materials, 
+                    x='Jumlah Peserta', 
+                    y='Judul Diklat', 
+                    orientation='h', 
+                    # title="Materi Pembelajaran Terpopuler",
+                    color='Jumlah Peserta',
+                    color_continuous_scale='Blues',
+                    labels={'Jumlah Peserta': 'Jumlah Peserta', 'Judul Diklat': 'Materi Pembelajaran'}
+                )
                 plot_url4 = pio.to_html(fig4, full_html=False)
 
                 # Store results
@@ -124,7 +164,18 @@ def upload_data():
                 instructor_table_html = instructor_table.to_html(index=True, classes="table table-striped table-bordered", header=True)
 
                 # Plotly bar chart
-                fig5 = px.bar(top_instructors, x=instructor_quality_column, y=instructor_name_column, orientation='h', title="10 Instruktur Terbaik")
+                # fig5 = px.bar(top_instructors, x=instructor_quality_column, y=instructor_name_column, orientation='h', title="10 Instruktur Terbaik")
+                fig5 = px.bar(
+                    top_instructors, 
+                    x=instructor_quality_column, 
+                    y=instructor_name_column, 
+                    orientation='h', 
+                    # title="10 Instruktur Terbaik",
+                    color=instructor_quality_column,
+                    color_continuous_scale='YlGnBu',
+                    labels={instructor_quality_column: 'Nilai Rata-Rata Instruktur', 'NAMA INSTRUKTUR': 'Nama Instruktur'}
+                )
+
                 plot_url5 = pio.to_html(fig5, full_html=False)
 
                 # Store top instructors data
@@ -132,7 +183,7 @@ def upload_data():
                     'top_instructors': instructor_table_html,
                     'plot_url5': plot_url5,
                 })
-    return render_template('home/upload.html', processed_data=processed_data)
+    return render_template('home/dashboard.html', processed_data=processed_data)
 
 @blueprint.route('/sentiment_analysis')
 def sentiment_analysis():
@@ -151,7 +202,7 @@ def top_materials_page():
         top_materials_html = top_materials.to_html(index=False, classes="table table-striped table-bordered")
     else:
         top_materials_html = "<p>Data tidak tersedia.</p>"
-    return render_template('home/top_materials.html', top_materials=top_materials_html, plot_url2=processed_data.get('plot_url2'))
+    return render_template('home/tables-bootstrap-tables.html', top_materials=top_materials_html, plot_url2=processed_data.get('plot_url2'))
 
 @blueprint.route('/bottom_materials')
 def bottom_materials_page():
