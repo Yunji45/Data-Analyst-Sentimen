@@ -232,7 +232,7 @@ def popular_materials_page():
         popular_materials_html = popular_materials.to_html(index=False, classes="table table-striped table-bordered")
     else:
         popular_materials_html = "<p>Data tidak tersedia.</p>"
-    return render_template('home/popular_materials.html', popular_materials=popular_materials_html, plot_url4=processed_data.get('plot_url4'))
+    return render_template('home/populer_materials.html', popular_materials=popular_materials_html, plot_url4=processed_data.get('plot_url4'))
 
 @blueprint.route('/top_instructors')
 def top_instructors_page():
