@@ -9,12 +9,19 @@ from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
 
 
-@blueprint.route('/index')
+# @blueprint.route('/index')
+# @login_required
+# def index():
+
+#     return render_template('home/dashboard.html', 
+#                            segment='index', 
+#                            user_id=current_user.id)
+@blueprint.route('/upload')
 @login_required
-def index():
+def upload():
 
     return render_template('home/dashboard.html', 
-                           segment='index', 
+                           segment='upload', 
                            user_id=current_user.id)
 
 @blueprint.route('/<template>')
@@ -47,7 +54,7 @@ def get_segment(request):
         segment = request.path.split('/')[-1]
 
         if segment == '':
-            segment = 'index'
+            segment = 'upload'
 
         return segment
 
