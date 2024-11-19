@@ -2,6 +2,9 @@
 import { useLayout } from '@/layout/composables/layout';
 import { ProductService } from '@/service/ProductService';
 import { onMounted, ref, watch } from 'vue';
+import ChartPie from '@/components/Chart-pie.vue';
+import HorizontalBar from '@/components/HorizontalBar.vue';
+import MenuUser from '@/components/Menu-user.vue';
 
 const { getPrimary, getSurface, isDarkTheme } = useLayout();
 
@@ -101,69 +104,72 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
 </script>
 
 <template>
-    <div class="grid grid-cols-12 gap-8">
+    <div class="grid grid-cols-9 gap-8 w-full">
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-            <div class="card mb-0">
-                <div class="flex justify-between mb-4">
-                    <div>
-                        <span class="block text-muted-color font-medium mb-4">Orders</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
+            <div class="card p-7">
+                <div class="flex gap-5 items-center">
+                    <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border" style="width: 4rem; height: 4rem">
+                        <i class="fa-regular fa-face-smile text-blue-500 text-4xl"></i>
                     </div>
-                    <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-shopping-cart text-blue-500 !text-xl"></i>
+                    <div>
+                        <span class="block text-muted-color font-medium text-base">Sentimen Positif</span>
+                        <span class="text-surface-900 dark:text-surface-0 font-bold text-3xl">152</span>
                     </div>
                 </div>
-                <span class="text-primary font-medium">24 new </span>
-                <span class="text-muted-color">since last visit</span>
             </div>
         </div>
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-            <div class="card mb-0">
-                <div class="flex justify-between mb-4">
-                    <div>
-                        <span class="block text-muted-color font-medium mb-4">Revenue</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">$2.100</div>
+            <div class="card p-7">
+                <div class="flex gap-5 items-center">
+                    <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border" style="width: 4rem; height: 4rem">
+                        <i class="fa-regular fa-face-frown text-orange-500 !text-4xl"></i>
                     </div>
-                    <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-dollar text-orange-500 !text-xl"></i>
+                    <div>
+                        <span class="block text-muted-color font-medium text-base">Sentimen Negatif</span>
+                        <span class="text-surface-900 dark:text-surface-0 font-bold text-3xl">292</span>
                     </div>
                 </div>
-                <span class="text-primary font-medium">%52+ </span>
-                <span class="text-muted-color">since last week</span>
             </div>
         </div>
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-            <div class="card mb-0">
-                <div class="flex justify-between mb-4">
-                    <div>
-                        <span class="block text-muted-color font-medium mb-4">Customers</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">28441</div>
+            <div class="card p-7">
+                <div class="flex gap-5 items-center">
+                    <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border" style="width: 4rem; height: 4rem">
+                        <i class="fa-regular fa-face-meh text-cyan-500 text-4xl"></i>
                     </div>
-                    <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-users text-cyan-500 !text-xl"></i>
+                    <div>
+                        <span class="block text-muted-color font-medium text-base">Sentimen Netral</span>
+                        <span class="text-surface-900 dark:text-surface-0 font-bold text-3xl">382</span>
                     </div>
                 </div>
-                <span class="text-primary font-medium">520 </span>
-                <span class="text-muted-color">newly registered</span>
-            </div>
-        </div>
-        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-            <div class="card mb-0">
-                <div class="flex justify-between mb-4">
-                    <div>
-                        <span class="block text-muted-color font-medium mb-4">Comments</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152 Unread</div>
-                    </div>
-                    <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-comment text-purple-500 !text-xl"></i>
-                    </div>
-                </div>
-                <span class="text-primary font-medium">85 </span>
-                <span class="text-muted-color">responded</span>
             </div>
         </div>
 
-        <div class="col-span-12 xl:col-span-6">
+        <div class="col-span-12 lg:col-span-6 xl:col-span-9">
+            <div class="card">
+                <div class="font-semibold text-xl mb-4">Distribusi Sentimen</div>
+                <!-- <Chart type="bar" :data="chartData" :options="chartOptions" class="h-80" /> -->
+                <ChartPie />
+            </div>
+        </div>
+
+        <div class="col-span-12 lg:col-span-6 xl:col-span-9">
+            <div class="card">
+                <div class="font-semibold text-xl mb-4">10 Materi Pembelajaran</div>
+                <!-- <Chart type="bar" :data="chartData" :options="chartOptions" class="h-80" /> -->
+                <HorizontalBar />
+            </div>
+        </div>
+
+        <div class="col-span-12 lg:col-span-6 xl:col-span-9">
+            <div class="card">
+                <div class="font-semibold text-xl mb-4">10 Materi Pembelajaran</div>
+                <!-- <Chart type="bar" :data="chartData" :options="chartOptions" class="h-80" /> -->
+                <Menu-user />
+            </div>
+        </div>
+
+        <!-- <div class="col-span-12 xl:col-span-6">
             <div class="card">
                 <div class="font-semibold text-xl mb-4">Recent Sales</div>
                 <DataTable :value="products" :rows="5" :paginator="true" responsiveLayout="scroll">
@@ -339,6 +345,6 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
