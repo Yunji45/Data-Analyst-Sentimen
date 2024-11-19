@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn-ripple {
+    background-color: #212121;
+    background-position: center;
+    transition: background 0.8s;
+    padding: 0 0.7rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.btn-ripple:hover {
+    background: #2a2a2a radial-gradient(circle, transparent 1%, #2a2a2a 1%) center/15000%;
+}
+
+.btn-ripple:active {
+    background-color: #fff;
+    background-size: 100%;
+    transition: background 0s;
+}
