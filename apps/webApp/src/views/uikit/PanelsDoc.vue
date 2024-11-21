@@ -177,8 +177,8 @@ function toggle() {
                         <InputText id="username" type="text" />
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label for="password">Password</label>
-                        <InputText id="password" type="password" />
+                        <label class="w-full" for="password">Password</label>
+                        <InputText id="password" type="password" class="w-full" />
                     </div>
                     <div class="flex">
                         <Button label="Login" icon="pi pi-user" class="w-full max-w-[17.35rem] mx-auto"></Button>

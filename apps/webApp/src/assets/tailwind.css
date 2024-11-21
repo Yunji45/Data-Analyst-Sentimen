@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 .btn-ripple {
-    background-color: #212121;
-    background-position: center;
+    background-position: left;
     transition: background 0.8s;
     padding: 0 0.7rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);

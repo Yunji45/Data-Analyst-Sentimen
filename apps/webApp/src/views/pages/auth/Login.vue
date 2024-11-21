@@ -1,57 +1,14 @@
-<template>
-    <div class="sign-in-layout">
-        <!-- Left side: Image -->
-        <div class="sign-in-image"></div>
-
-        <!-- Right side: Login Form -->
-        <div class="sign-in-form">
-            <div class="sign-in-container bg-white shadow border-0 rounded p-4 p-lg-5">
-                <div class="text-center mb-4">
-                    <!-- Ganti dengan logo -->
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Logo_PLN.svg/2560px-Logo_PLN.svg.png" alt="Sign In Logo" style="max-width: 150px" />
-                    <p class="lead text-muted" style="font-size: 12px">
-                        <span v-if="errorMessage" class="text-danger">{{ errorMessage }}</span>
-                        <span v-else>Please enter your credentials to sign in.</span>
-                    </p>
-                </div>
-                <form @submit.prevent="handleLogin" class="mt-4">
-                    <div class="form-group mb-4">
-                        <label for="username">Username</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><span class="fas fa-user-circle"></span></span>
-                            <input v-model="username" type="text" id="username" placeholder="Username" class="form-control" required />
-                        </div>
-                    </div>
-                    <div class="form-group mb-4">
-                        <label for="password">Your Password</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><span class="fas fa-unlock-alt"></span></span>
-                            <input v-model="password" type="password" id="password" placeholder="Password" class="form-control" required />
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-top mb-4">
-                        <div class="form-check">
-                            <input v-model="rememberMe" class="form-check-input" type="checkbox" id="remember" />
-                            <label class="form-check-label" for="remember">Remember me</label>
-                        </div>
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-signin">Sign In</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import Checkbox from 'primevue/checkbox';
 
 const username = ref('');
 const password = ref('');
 const rememberMe = ref(false);
 const errorMessage = ref('');
+const value2 = ref(null);
+const value = ref(null);
 const enableSocialAuth = true;
 
 // Fungsi untuk menangani login
@@ -82,64 +39,67 @@ const loginWithGithub = () => {
 };
 </script>
 
-<style scoped>
-.sign-in-container {
-    min-width: 450px;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-.sign-in-header h1 {
-    font-weight: 700;
-    font-size: 2.5rem;
-    color: #333;
-}
-.form-group label {
-    font-weight: 600;
-    color: #555;
-}
-.form-control {
-    border-radius: 5px;
-    font-size: 1rem;
-}
-.btn-signin {
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    padding: 10px 15px;
-}
-.btn-signin:hover {
-    background-color: #0056b3;
-}
-.social-login-btn {
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    padding: 10px 20px;
-    font-weight: 600;
-}
-.social-login-btn:hover {
-    background-color: #f1f1f1;
-}
-.sign-in-layout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-.sign-in-image {
-    flex: 1;
-    background: url('https://plus.unsplash.com/premium_photo-1676657954811-9409c4830467?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
-    background-size: cover;
-    height: 100vh;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-.sign-in-form {
-    flex: 1;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-</style>
+<template>
+    <div class="flex justify-center items-center min-h-screen">
+        <!-- Left side: Image -->
+        <div class="flex-1 bg-cover bg-center" style="">
+            <img src="https://plus.unsplash.com/premium_photo-1676657954811-9409c4830467?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-screen" alt="" />
+        </div>
+
+        <!-- Right side: Login Form -->
+        <div class="flex-1 p-10 flex justify-center items-center">
+            <div class="bg-white shadow border-0 rounded p-4 p-lg-5 min-w-[450px]">
+                <div class="text-center mb-4">
+                    <!-- Ganti dengan logo -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Logo_PLN.svg/2560px-Logo_PLN.svg.png" alt="Sign In Logo" class="max-w-[150px]" />
+                    <p class="lead text-muted text-sm">
+                        <span v-if="errorMessage" class="text-danger">{{ errorMessage }}</span>
+                        <span v-else>Please enter your credentials to sign in.</span>
+                    </p>
+                </div>
+                <form @submit.prevent="handleLogin" class="mt-4 px-5">
+                    <div class="mb-4 px-10">
+                        <FloatLabel variant="on">
+                            <InputText id="Username" v-model="value2" autocomplete="off" class="w-full" />
+                            <label for="Username">Username</label>
+                        </FloatLabel>
+                    </div>
+                    <div class="mb-4 px-10">
+                        <FloatLabel variant="on">
+                            <InputText id="Username" v-model="value2" autocomplete="off" class="w-full" />
+                            <label for="Username">Username</label>
+                        </FloatLabel>
+                    </div>
+
+                    <div class="mb-4 px-10">
+                        <Password v-model="value" class="w-full">
+                            <template #header>
+                                <div class="font-semibold mb-4">Pick a password</div>
+                            </template>
+                            <template #footer>
+                                <Divider />
+                                <ul class="pl-2 ml-2 my-0 leading-normal">
+                                    <li>At least one lowercase</li>
+                                    <li>At least one uppercase</li>
+                                    <li>At least one numeric</li>
+                                    <li>Minimum 8 characters</li>
+                                </ul>
+                            </template>
+                        </Password>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <Checkbox v-model="rememberMe" binary class="custom-checkbox" />
+                            <label class="form-check-label" for="remember">Remember me</label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="bg-blue-500 text-white rounded py-2 px-4 text-lg hover:bg-blue-600">Sign In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
