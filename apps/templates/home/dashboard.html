@@ -183,6 +183,58 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <!-- Pembelajaran Perlu Dievaluasi -->
+        <div class="col-12">
+            <div class="card border-0 shadow">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="h5 mb-0">Pembelajaran Perlu Dievaluasi</h2>
+                    <a href="" class="btn btn-sm btn-primary">Lihat Detail</a>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container">
+                        <!-- Render Plot for Materials to Evaluate -->
+                        {{ processed_data['plot_url_eval']|safe if processed_data['plot_url_eval'] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="h5 mb-0">Top Penyelenggara Terbaik</h2>
+                    <a href="" class="btn btn-sm btn-primary">Lihat Detail</a>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container">
+                        {{ processed_data['plot_url_top_organizers']|safe if processed_data['plot_url_top_organizers'] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="h5 mb-0">Materi Perlu Dievaluasi</h2>
+                    <a href="{{ url_for('authentication_blueprint.material_evaluasi_page') }}" class="btn btn-sm btn-primary">Lihat Detail</a>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container">
+                        {{ processed_data['plot_url_bottom']|safe if processed_data['plot_url_bottom'] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     {% endif %}
     <!-- <div class="row">
         <div class="col-12 mb-4">

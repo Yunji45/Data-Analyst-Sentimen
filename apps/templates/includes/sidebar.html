@@ -224,6 +224,64 @@
             </li>
           </ul>
         </div>
+        <div
+          class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+          role="list"
+          id="submenu-app"
+          aria-expanded="false"
+        >
+        <ul class="flex-column nav">
+          <li
+            class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
+          >
+            <a
+              class="nav-link"
+              href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
+            >
+              <span class="sidebar-text">Pembelajaran Perlu Evaluasi</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+        role="list"
+        id="submenu-app"
+        aria-expanded="false"
+      >
+        <ul class="flex-column nav">
+          <li
+            class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
+          >
+            <a
+              class="nav-link"
+              href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
+            >
+              <span class="sidebar-text">Materi Perlu Evaluasi</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div
+          class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+          role="list"
+          id="submenu-app"
+          aria-expanded="false"
+        >
+          <ul class="flex-column nav">
+            <li
+              class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
+            >
+              <a
+                class="nav-link"
+                href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
+              >
+                <span class="sidebar-text">Top Penyelenggaraan Pembelajaran Terbaik</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
       <!-- <li class="nav-item {% if 'page-' in segment %} active {% endif %}">
         <span
