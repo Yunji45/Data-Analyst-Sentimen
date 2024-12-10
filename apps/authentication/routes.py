@@ -46,7 +46,7 @@ def analyze_sentiment(text):
         return "Netral"
     
 @blueprint.route('/upload', methods=['GET', 'POST'])
-def upload_data():
+def upload_data_page():
     if request.method == 'POST':
         file_csv = request.files.get('file_csv')
         file_excel = request.files.get('file_excel')
