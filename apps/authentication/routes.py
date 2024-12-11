@@ -142,6 +142,57 @@ def upload_data():
                     'plot_url4': plot_url4,
                 })
 
+                # Analisis Materi Perlu Dievaluasi
+            if post_test_average_column in data_feedback.columns:
+                # Data bottom materials
+                data_feedback[post_test_average_column] = pd.to_numeric(data_feedback[post_test_average_column], errors='coerce')
+                data_feedback.dropna(subset=[post_test_average_column], inplace=True)
+
+                grouped_materials = data_feedback.groupby(['Judul Diklat'])[post_test_average_column].mean().reset_index()
+                bottom_materials_evaluasi = grouped_materials.sort_values(by=post_test_average_column).head(10)
+
+                # Plot materi perlu dievaluasi
+                fig_bottom = px.bar(
+                    bottom_materials_evaluasi,
+                    x=post_test_average_column,
+                    y='Judul Diklat',
+                    orientation='h',
+                    color=post_test_average_column,
+                    color_continuous_scale='RdYlGn',
+                    labels={post_test_average_column: 'Nilai Rata-Rata', 'Judul Diklat': 'Materi Pembelajaran'},
+                )
+                plot_url_bottom = pio.to_html(fig_bottom, full_html=False)
+
+                # Simpan hasil ke `processed_data`
+                processed_data.update({
+                    'bottom_materials_evaluasi': bottom_materials_evaluasi.to_dict(orient='records'),
+                    'plot_url_bottom': plot_url_bottom,
+                })
+
+
+                ## pembelajaran perlu dievaluasi
+                threshold = 60 
+                materials_to_evaluate = grouped_materials[grouped_materials[post_test_average_column] < threshold]
+                evaluation_table_html = materials_to_evaluate.to_html(index=False, classes="table table-striped table-bordered", header=True)
+
+                fig_eval = px.bar(
+                    materials_to_evaluate,
+                    x=post_test_average_column,
+                    y='Judul Diklat',
+                    orientation='h',
+                    color=post_test_average_column,
+                    color_continuous_scale='OrRd',
+                    labels={post_test_average_column: 'Nilai Rata-Rata', 'Judul Diklat': 'Materi Pembelajaran'},
+                )
+                plot_url_eval = pio.to_html(fig_eval, full_html=False)
+
+                # Store evaluation data
+                processed_data.update({
+                    'evaluation_table': evaluation_table_html,
+                    'plot_url_eval': plot_url_eval,
+                })
+
+
             # Top Instructors Analysis
             if instructor_quality_column in data_instructor.columns and instructor_name_column in data_instructor.columns:
                 data_instructor[instructor_quality_column] = pd.to_numeric(data_instructor[instructor_quality_column], errors='coerce')
@@ -183,7 +234,38 @@ def upload_data():
                     'top_instructors': instructor_table_html,
                     'plot_url5': plot_url5,
                 })
+
+        # Memastikan kolom yang benar
+        post_test_average_column = 'N Rata2'  # Gantilah dengan nama kolom rata-rata yang sesuai
+
+        # Menampilkan 5 penyelenggara terbaik
+        top_organizers = grouped_materials[['Judul Diklat', post_test_average_column]].nlargest(5, post_test_average_column)
+
+        # Membuat tabel HTML untuk Top Penyelenggara
+        top_organizers_table_html = top_organizers.to_html(index=False, classes="table table-striped table-bordered", header=True)
+
+        # Membuat grafik bar untuk Top Penyelenggara
+        fig_top_organizers = px.bar(
+            top_organizers,
+            x=post_test_average_column,
+            y='Judul Diklat',
+            orientation='h',
+            color=post_test_average_column,
+            color_continuous_scale='Viridis',
+            labels={post_test_average_column: 'Nilai Rata-Rata', 'Penyelenggara': 'Penyelenggara'},
+        )
+
+        # Mengonversi grafik menjadi HTML
+        plot_url_top_organizers = pio.to_html(fig_top_organizers, full_html=False)
+
+        # Menyimpan data untuk dikirim ke template
+        processed_data.update({
+            'top_organizers_table': top_organizers_table_html,
+            'plot_url_top_organizers': plot_url_top_organizers,
+        })
+
     return render_template('home/dashboard.html', processed_data=processed_data)
+
 
 @blueprint.route('/sentiment_analysis')
 def sentiment_analysis():
@@ -233,6 +315,22 @@ def popular_materials_page():
     else:
         popular_materials_html = "<p>Data tidak tersedia.</p>"
     return render_template('home/populer_materials.html', popular_materials=popular_materials_html, plot_url4=processed_data.get('plot_url4'))
+
+
+@blueprint.route('/materi_evaluasi')
+def material_evaluasi_page():
+    bottom_materials_evaluasi = processed_data.get('bottom_materials_evaluasi', pd.DataFrame())
+    plot_url_bottom = processed_data.get('plot_url_bottom', pd.DataFrame())
+    if not bottom_materials_evaluasi.empty and 'Sentimen' in plot_url_bottom.columns:
+        sentiment_counts = (
+            plot_url_bottom[plot_url_bottom['Judul Diklat'].isin(bottom_materials_evaluasi['Judul Diklat'])]
+            .groupby(['Judul Diklat', 'Sentimen']).size().unstack(fill_value=0)
+        ).reset_index()
+        bottom_materials_evaluasi = bottom_materials_evaluasi.merge(sentiment_counts, on='Judul Diklat', how='left')
+        bottom_materials_html = bottom_materials_evaluasi.to_html(index=False, classes="table table-striped table-bordered")
+    else:
+        bottom_materials_html = "<p>Data tidak tersedia.</p>"
+    return render_template('home/materi_evaluasi.html', bottom_materials_evaluasi=bottom_materials_html, plot_url_bottom=processed_data.get('plot_url_bottom'))
 
 @blueprint.route('/top_instructors')
 def top_instructors_page():
