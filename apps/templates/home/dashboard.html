@@ -1,231 +1,446 @@
 {% extends "layouts/base.html" %} {% block title %} Dashboard {% endblock %} {%
-block stylesheets %}
-<!-- Add custom page-specific CSS here -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css"
-/>
-{% endblock %} {% block content %}
-<div class="py-4">
-  <!-- New Task Button with Dropdown -->
-  <div class="dropdown">
-    <button
-      class="btn btn-gray-800 d-inline-flex align-items-center me-2 dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="true"
-      aria-expanded="false"
-    >
-      <i class="bi bi-plus-circle me-2"></i> New Task
-    </button>
-    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-      <a
-        class="dropdown-item d-flex align-items-center"
-        href="#"
-        data-bs-toggle="modal"
-        data-bs-target="#uploadModal"
+  block stylesheets %}
+  <!-- Tambahkan CSS khusus halaman di sini -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css"
+  />
+  {% endblock stylesheets %} {% block content %}
+  <div class="py-4">
+    <div class="dropdown">
+      <button
+        class="btn btn-gray-800 d-inline-flex align-items-center me-2 dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
       >
-        <i class="bi bi-cloud-upload text-gray-400 me-2"></i> Upload Files
-      </a>
-    </div>
-  </div>
-</div>
-
-{% if processed_data %}
-<!-- Sentiment Cards -->
-<div class="row g-4 mb-4">
-  {% for sentiment, color, icon in [ ('Positif', 'primary', 'bi-emoji-smile'),
-  ('Netral', 'secondary', 'bi-emoji-neutral'), ('Negatif', 'tertiary',
-  'bi-emoji-frown') ] %}
-  <div class="col-12 col-sm-6 col-xl-4">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body d-flex align-items-center">
-        <div class="icon-shape icon-shape-{{ color }} rounded me-4 p-4">
-          <i class="bi {{ icon }} fs-1"></i>
-        </div>
-        <div>
-          <span class="d-block h6 text-gray-400 mb-0"
-            >Sentimen {{ sentiment }}</span
-          >
-          <h2 class="h1 fw-extrabold mb-2">
-            {{ processed_data.sentiment_counts.get(sentiment, 0) }}
-          </h2>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-
-<!-- Modal for File Upload -->
-<div
-  class="modal fade"
-  id="uploadModal"
-  tabindex="-1"
-  aria-labelledby="uploadModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="uploadModalLabel">Upload Files</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form
-          method="post"
-          enctype="multipart/form-data"
-          onsubmit="return validateForm()"
-        >
-          <div class="mb-3">
-            <label for="file_csv" class="form-label"
-              >Choose file CSV Feedback</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="file_csv"
-              name="file_csv"
-              accept=".csv"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="file_excel" class="form-label"
-              >Choose file Excel Instruktur</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="file_excel"
-              name="file_excel"
-              accept=".xlsx,.xls"
-              required
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">Analisa</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Sentimen Komentar Terbuka Plot -->
-<div class="row">
-  <div class="col-12 mb-4">
-    <div class="card bg-yellow-100 border-0 shadow">
-      <div class="card-header d-flex justify-content-center align-items-center">
-        <h2 class="h5 mb-0">Sentimen Komentar Terbuka</h2>
-      </div>
-      <div class="card-body">
-        <div>
-          {{ processed_data.plot_url1 | safe if processed_data.plot_url1 }}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Top Learning Materials and Popular Materials -->
-{% for title, url_key, plot_url_key in [ ('10 Materi Pembelajaran Terbaik',
-'top_materials_page', 'plot_url2'), ('Materi Terpopuler',
-'popular_materials_page', 'plot_url4'), ('10 Instruktur Terbaik',
-'top_instructors_page', 'plot_url5') ] %}
-<div class="row mb-4">
-  <div class="col-12">
-    <div class="card border-0 shadow">
-      <div
-        class="card-header d-flex justify-content-between align-items-center"
-      >
-        <h2 class="h5 mb-0">{{ title }}</h2>
+        <i class="bi bi-plus-circle me-2"></i>
+        New Task
+      </button>
+      <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
         <a
-          href="{{ url_for('authentication_blueprint.' + url_key) }}"
-          class="btn btn-sm btn-primary"
-          >Lihat Detail</a
+          class="dropdown-item d-flex align-items-center"
+          href="#"
+          data-bs-toggle="modal"
+          data-bs-target="#uploadModal"
         >
+          <i class="bi bi-cloud-upload text-gray-400 me-2"></i>
+          Upload Files
+        </a>
       </div>
-      <div class="card-body p-4">
-        <div class="chart-container">
-          {{ processed_data[plot_url_key] | safe if processed_data[plot_url_key]
-          }}
+    </div>
+  </div>
+  
+  {% if processed_data %}
+  <div class="row g-4 mb-4">
+    <!-- Card Sentimen Positif -->
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card border-0 shadow h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="icon-shape icon-shape-primary rounded me-4 p-4">
+            <i class="bi bi-emoji-smile fs-1"></i>
+          </div>
+          <div>
+            <span class="d-block h6 text-gray-400 mb-0">Sentimen Positif</span>
+            <h2 class="h1 fw-extrabold mb-2">
+              {{ processed_data.sentiment_counts.get('Positif', 0) }}
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Card Sentimen Netral -->
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card border-0 shadow h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="icon-shape icon-shape-secondary rounded me-4 p-4">
+            <i class="bi bi-emoji-neutral fs-1"></i>
+          </div>
+          <div>
+            <span class="d-block h6 text-gray-400 mb-0">Sentimen Netral</span>
+            <h2 class="h1 fw-extrabold mb-2">
+              {{ processed_data.sentiment_counts.get('Netral', 0) }}
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Card Sentimen Negatif -->
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card border-0 shadow h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="icon-shape icon-shape-tertiary rounded me-4 p-4">
+            <i class="bi bi-emoji-frown fs-1"></i>
+          </div>
+          <div>
+            <span class="d-block h6 text-gray-400 mb-0">Sentimen Negatif</span>
+            <h2 class="h1 fw-extrabold mb-2">
+              {{ processed_data.sentiment_counts.get('Negatif', 0) }}
+            </h2>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-{% endfor %} {% endif %} {% endblock content %} {% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@2.15.0/plotly.min.js"></script>
-
-<script>
-  function validateForm() {
-    var file_csv = document.getElementById("file_csv").value;
-    var file_excel = document.getElementById("file_excel").value;
-
-    if (!file_csv || !file_excel) {
-      alert("Both files are required!");
-      return false; // Prevent form submission
-    }
-    return true; // Allow form submission if both files are selected
-  }
-
-  d3.csv(
-    "https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv",
-    function (err, rows) {
-      if (err) {
-        console.error("Error loading the CSV data:", err);
-        return;
-      }
-
-      function unpack(rows, key) {
-        return rows.map(function (row) {
-          return row[key];
-        });
-      }
-
-      var traces = [
-        {
+  
+  <!-- Modal Upload Files -->
+  <div
+    class="modal fade"
+    id="uploadModal"
+    tabindex="-1"
+    aria-labelledby="uploadModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalLabel">Upload Files</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="file_csv" class="form-label"
+                >Choose file CSV Feedback</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                id="file_csv"
+                name="file_csv"
+                accept=".csv"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="file_excel" class="form-label"
+                >Choose file Excel Instruktur</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                id="file_excel"
+                name="file_excel"
+                accept=".xlsx,.xls"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Analisa</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Duplicate Modal (renamed) -->
+  <div
+    class="modal fade"
+    id="uploadModal2"
+    tabindex="-1"
+    aria-labelledby="uploadModalLabel2"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalLabel2">Upload Files</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <!-- Upload Form -->
+          <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="fileUpload" class="form-label"
+                >Choose file csv feedback</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                id="file_csv"
+                name="file_csv"
+                accept=".csv"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="fileUpload" class="form-label"
+                >Choose file Excel Instruktur</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                id="file_excel"
+                name="file_excel"
+                accept=".xlsx,.xls"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">Analisa</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-12 mb-4">
+      <div class="card bg-yellow-100 border-0 shadow">
+        <div class="card-header d-flex justify-content-center align-items-center">
+          <h2 class="h5 mb-0">Sentimen Komentar Terbuka</h2>
+        </div>
+        <div class="card-body">
+          <div>
+            {{ processed_data.plot_url1 | safe if processed_data.plot_url1 }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- <div class="row g-4 mb-5">
+          <div class="col-12 col-xl-8">
+              <div class="card border-0 shadow h-100">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                      <h2 class="h5 mb-0">10 Materi Pembelajaran Terbaik</h2>
+                      <a href="{{ url_for('authentication_blueprint.top_materials_page') }}" class="btn btn-sm btn-primary">Lihat Detail</a>
+                  </div>
+                  <div class="card-body p-4">
+                      <div class="chart-container">
+                          {{ processed_data.plot_url2 | safe if processed_data.plot_url2 }}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-12 col-xl-4">
+              <div class="card border-0 shadow h-100">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                      <h2 class="h5 mb-0">Materi Terpopuler</h2>
+                      <a href="{{ url_for('authentication_blueprint.popular_materials_page') }}" class="btn btn-sm btn-primary">Lihat Detail</a>
+                  </div>
+                  <div class="card-body p-4">
+                      <div class="chart-container">
+                          {{ processed_data.plot_url4 | safe if processed_data.plot_url4 }}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h2 class="h5 mb-0">10 Materi Pembelajaran Terbaik</h2>
+          <a
+            href="{{ url_for('authentication_blueprint.top_materials_page') }}"
+            class="btn btn-sm btn-primary"
+            >Lihat Detail</a
+          >
+        </div>
+        <div class="card-body p-4">
+          <div class="chart-container">
+            {{ processed_data.plot_url2 | safe if processed_data.plot_url2 }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h2 class="h5 mb-0">Materi Terpopuler</h2>
+          <a
+            href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
+            class="btn btn-sm btn-primary"
+            >Lihat Detail</a
+          >
+        </div>
+        <div class="card-body p-4">
+          <div class="chart-container">
+            {{ processed_data.plot_url4 | safe if processed_data.plot_url4 }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h2 class="h5 mb-0">10 Instruktur Terbaik</h2>
+          <a
+            href="{{ url_for('authentication_blueprint.top_instructors_page') }}"
+            class="btn btn-sm btn-primary"
+            >Lihat Detail</a
+          >
+        </div>
+        <div class="card-body p-4">
+          <div class="chart-container">
+            {{ processed_data.plot_url5 | safe if processed_data.plot_url5 }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <!-- <div class="row">
+          <div class="col-12 mb-4">
+              <div class="card bg-yellow-100 border-0 shadow">
+                  <div class="card-body ">
+                      <div id="dev"></div>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+  <div
+    class="modal fade"
+    id="uploadModal"
+    tabindex="-1"
+    aria-labelledby="uploadModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalLabel">Upload Files</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <!-- Upload Form -->
+          <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="fileUpload" class="form-label"
+                >Choose file csv feedback</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                id="file_csv"
+                name="file_csv"
+                accept=".csv"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="fileUpload" class="form-label"
+                >Choose file Excel Instruktur</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                id="file_excel"
+                name="file_excel"
+                accept=".xlsx,.xls"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">Analisa</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    d3.csv(
+      "https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv",
+      function (err, rows) {
+        if (err) {
+          console.error("Error loading the CSV data:", err);
+          return;
+        }
+  
+        function unpack(rows, key) {
+          return rows.map(function (row) {
+            return row[key];
+          });
+        }
+  
+        var trace1 = {
+          type: "scatter",
+          mode: "lines",
           name: "Suplai Chain",
           x: unpack(rows, "Date"),
-          y: unpack(rows, "AAPL.High").map(parseFloat),
+          y: unpack(rows, "AAPL.High").map((val) => parseFloat(val)),
           line: { color: "#17BECF" },
-        },
-        {
+        };
+  
+        var trace2 = {
+          type: "scatter",
+          mode: "lines",
           name: "Batubara",
           x: unpack(rows, "Date"),
-          y: unpack(rows, "AAPL.Low").map(parseFloat),
+          y: unpack(rows, "AAPL.Low").map((val) => parseFloat(val)),
           line: { color: "#7F7F7F" },
-        },
-        {
+        };
+  
+        var trace3 = {
+          type: "scatter",
+          mode: "lines",
           name: "Inovasi Strategis",
           x: unpack(rows, "Date"),
-          y: unpack(rows, "AAPL.Open").map(parseFloat),
+          y: unpack(rows, "AAPL.Open").map((val) => parseFloat(val)),
           line: { color: "#1F77B4" },
-        },
-        {
+        };
+  
+        // Trace untuk AAPL Close
+        var trace4 = {
+          type: "scatter",
+          mode: "lines",
           name: "Hydrogen",
           x: unpack(rows, "Date"),
-          y: unpack(rows, "AAPL.Close").map(parseFloat),
+          y: unpack(rows, "AAPL.Close").map((val) => parseFloat(val)),
           line: { color: "#FF7F0E" },
-        },
-        {
+        };
+  
+        // Trace untuk AAPL Volume
+        var trace5 = {
+          type: "scatter",
+          mode: "lines",
           name: "Boiler",
           x: unpack(rows, "Date"),
-          y: unpack(rows, "AAPL.Volume").map(parseFloat),
+          y: unpack(rows, "AAPL.Volume").map((val) => parseFloat(val)),
           line: { color: "#2CA02C" },
-        },
-      ];
-
-      var layout = {
-        title: "Tren AAPL",
-        xaxis: { rangeslider: { range: ["2012-06-01", "2014-06-01"] } },
-      };
-
-      Plotly.newPlot("chart", traces, layout);
-    }
-  );
-</script>
-{% endblock %}
+        };
+  
+        var layout = {
+          title: "Tren AAPL",
+          xaxis: { rangeslider: { range: ["2012-06-01", "2014-06-01"] } },
+        };
+  
+        Plotly.newPlot("chart", [trace1, trace2, trace3, trace4, trace5], layout);
+      }
+    );
+  </script>
+  
+  {% endblock content %}
+  

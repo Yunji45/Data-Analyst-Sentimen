@@ -1,4 +1,5 @@
 import AppLayout from '@/layout/AppLayout.vue';
+import Login from '@/views/pages/auth/Login.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -6,7 +7,7 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            component: AppLayout,
+            component: Login,
             children: [
                 {
                     path: '/',
