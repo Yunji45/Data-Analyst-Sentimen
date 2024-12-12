@@ -1,291 +1,270 @@
 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
   <a class="navbar-brand me-lg-5" href="/">
-    <img
-      class="navbar-brand-dark"
-      src="{{ config.ASSETS_ROOT }}/img/brand/light.svg"
-      alt="Volt logo"
-    />
-    <img
-      class="navbar-brand-light"
-      src="{{ config.ASSETS_ROOT }}/img/brand/dark.svg"
-      alt="Volt logo"
-    />
+    <img class="navbar-brand-dark" src="{{ config.ASSETS_ROOT }}/img/brand/light.svg" alt="Volt logo" />
+    <img class="navbar-brand-light" src="{{ config.ASSETS_ROOT }}/img/brand/dark.svg" alt="Volt logo" />
   </a>
   <div class="d-flex align-items-center">
-    <button
-      class="navbar-toggler d-lg-none collapsed"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#sidebarMenu"
-      aria-controls="sidebarMenu"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   </div>
 </nav>
 
-<nav
-  id="sidebarMenu"
-  class="sidebar d-lg-block bg-gray-900 text-white collapse"
-  data-simplebar
->
+<nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-100 text-black collapse shadow-sm" data-simplebar>
   <div class="sidebar-inner px-4 pt-3">
-    <div
-      class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4"
-    >
+    <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
       <div class="d-flex align-items-center">
         <div class="avatar-lg me-4">
-          <img
-            src="{{ config.ASSETS_ROOT }}/img/team/profile-picture-3.jpg"
-            class="card-img-top rounded-circle border-white"
-            alt="Bonnie Green"
-          />
+          <img src="{{ config.ASSETS_ROOT }}/img/team/profile-picture-3.jpg"
+            class="card-img-top rounded-circle border-white" alt="Bonnie Green" />
         </div>
         <div class="d-block">
           <h2 class="h5 mb-3">Hi, Jane</h2>
-          <a
-            href="/page-sign-in.html"
-            class="btn btn-secondary btn-sm d-inline-flex align-items-center"
-          >
-            <svg
-              class="icon icon-xxs me-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              ></path>
+          <a href="/page-sign-in.html" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
+            <svg class="icon icon-xxs me-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
             </svg>
             Sign Out
           </a>
         </div>
       </div>
+
       <div class="collapse-close d-md-none">
-        <a
-          href="#sidebarMenu"
-          data-bs-toggle="collapse"
-          data-bs-target="#sidebarMenu"
-          aria-controls="sidebarMenu"
-          aria-expanded="true"
-          aria-label="Toggle navigation"
-        >
-          <svg
-            class="icon icon-xs"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
+        <a href="#sidebarMenu" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
+          aria-expanded="true" aria-label="Toggle navigation">
+          <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
               d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
+              clip-rule="evenodd"></path>
           </svg>
         </a>
       </div>
     </div>
     <ul class="nav flex-column pt-3 pt-md-0">
       <li>
-        <p
-          href="#"
-          class="d-flex align-items-center"
-          style="padding-left: 15px"
-        >
+        <p href="#" class="d-flex align-items-center" style="padding-left: 15px">
           <span class="sidebar-icon">
-            <img
-              src="{{ config.ASSETS_ROOT }}/img/logo-md.png"
-              height="20"
-              width="20"
-              alt="Volt Logo"
-            />
+            <img src="{{ config.ASSETS_ROOT }}/img/logo-md.png" height="35" width="35" alt="Volt Logo" />
           </span>
-          <span class="mt-1 ms-1 sidebar-text">InsghtLab PLN</span>
+          <span class="mt-1 ms-1 sidebar-text " style="font-weight: bold;">InsghtLab PLN</span>
         </p>
       </li>
-      <li class="nav-item {% if 'dashboard' in segment %} active {% endif %}">
-        <a
-          class="nav-link"
-          href="{{ url_for('authentication_blueprint.upload_data') }}"
-        >
+      <li>
+        <a href="{{ url_for('authentication_blueprint.upload_data') }}" style="
+            display: flex; 
+            align-items: center; 
+            padding: 10px; 
+            background-color: {{  '#1285c4' if request.endpoint == 'authentication_blueprint.upload_data' else  '#ddf0f6' }};
+            color: {{  '#ffffff' if request.endpoint == 'authentication_blueprint.upload_data' else  '#1285c4' }}; 
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top:18px;
+            height:40px;
+            width: 220px;
+          ">
           <span class="sidebar-icon">
-            <svg
-              class="icon icon-xs me-2"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg class="icon icon-xs me-2"
+              fill="{{ '#ffffff' if request.endpoint == 'authentication_blueprint.upload_data' else '#1285c4' }}"
+              viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px">
               <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
               <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
             </svg>
-          </span>
-          <span class="sidebar-text">Dashboard</span>
-        </a>
-      </li>
-      <li
-        class="nav-item {% if 'tables-bootstrap-' in segment %} active {% endif %}"
-      >
-        <span
-          class="nav-link collapsed d-flex justify-content-between align-items-center"
-          data-bs-toggle="collapse"
-          data-bs-target="#submenu-app"
-        >
-          <span>
-            <span class="sidebar-icon">
-              <svg
-                class="icon icon-xs me-2"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </span>
-            <span class="sidebar-text">Sentiments Data</span>
-          </span>
-          <span class="link-arrow">
-            <svg
-              class="icon icon-sm"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              ></path>
+            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
             </svg>
           </span>
+          <span style="margin-left: 8px; font-weight: normal">
+            Dashboard
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <span data-bs-toggle="collapse" data-bs-target="#submenu-app"  style="cursor: pointer;">
+          <span style="
+              display: flex; 
+              align-items: center; 
+              padding: 10px; 
+              background-color: {{ 
+                '#1285c4' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+              '#1285c4' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+              '#1285c4' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+              '#ddf0f6'}};
+              color: {{'#fff' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+              '#fff' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+              '#fff' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+              '#1285c4'}};
+              border-radius: 5px; 
+              text-decoration: none; 
+              transition: background-color 0.3s ease;
+              margin-top: 10px;
+              height:40px;
+              width: 220px;
+            ">
+            <span class="sidebar-icon">
+              <svg class="icon icon-xs me-2" fill="{{'#fff' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+                '#fff' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+                '#1285c4' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+                '#1285c4'}}" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px">
+                <path fill-rule="evenodd"
+                  d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </span>
+            <span class="text" style="margin-left: 8px; margin-right: 20px; font-weight: normal; cursor: pointer;">
+              Sentiments Data
+            </span>
+
+            <span class="link-arrow">
+              <svg class="icon icon-sm cursor: pointer;" fill="{{'#fff' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+                     '#fff' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+                     '#fff' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+                     '#1285c4'}}" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="25" height="25">
+                <path fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"></path>
+              </svg>
+
+            </span>
+          </span>
         </span>
-        <div
-          class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
-          role="list"
-          id="submenu-app"
-          aria-expanded="false"
-        >
-          <ul class="flex-column nav">
+        <div class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}" role="list"
+          id="submenu-app" aria-expanded="false">
+          <ul>
             <li
-              class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
-            >
-              <a
-                class="nav-link"
-                href="{{ url_for('authentication_blueprint.top_materials_page') }}"
-              >
+              class="{% if 'bootstrap-tables' in segment and 'top_materials_page' in request.path %} active {% endif %}"
+              style="
+              align-items: center; 
+              padding: 10px; 
+              background-color: {{ 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+              '#f4f4f4'}};
+              height:40px;
+              color: white; 
+              border-radius: 5px; 
+              text-decoration: none; 
+              margin-top: 10px;
+              transition: background-color 0.3s ease;
+            ">
+              <a href="{{ url_for('authentication_blueprint.top_materials_page') }}">
                 <span class="sidebar-text">Best Learning</span>
               </a>
             </li>
-          </ul>
-        </div>
-
-        <div
-          class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
-          role="list"
-          id="submenu-app"
-          aria-expanded="false"
-        >
-          <ul class="flex-column nav">
             <li
-              class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
-            >
-              <a
-                class="nav-link"
-                href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
-              >
-                <span class="sidebar-text">Most Pupular Learning</span>
+              class="nav-item {% if 'bootstrap-tables' in segment and 'popular_materials_page' in request.path %} active {% endif %}"
+              style="
+              align-items: center; 
+              padding: 10px; 
+              background-color: {{ 
+                '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+              '#f4f4f4'}};
+              color: white; 
+              border-radius: 5px; 
+              text-decoration: none; 
+              margin-top: 10px;
+              transition: background-color 0.3s ease;
+              height:40px;
+            ">
+              <a href="{{ url_for('authentication_blueprint.popular_materials_page') }}">
+                <span class="sidebar-text">Most Popular Learning</span>
               </a>
             </li>
-          </ul>
-        </div>
-
-        <div
-          class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
-          role="list"
-          id="submenu-app"
-          aria-expanded="false"
-        >
-          <ul class="flex-column nav">
             <li
-              class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
-            >
-              <a
-                class="nav-link"
-                href="{{ url_for('authentication_blueprint.top_instructors_page') }}"
-              >
+              class="nav-item {% if 'bootstrap-tables' in segment and 'top_instructors_page' in request.path %} active {% endif %}"
+              style="
+              align-items: center; 
+              padding: 10px; 
+              background-color: {{ 
+                '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+              '#f4f4f4'}};
+              color: white; 
+              border-radius: 5px; 
+              text-decoration: none; 
+              margin-top: 10px;
+              transition: background-color 0.3s ease;
+              height:40px;
+            ">
+              <a href="{{ url_for('authentication_blueprint.top_instructors_page') }}">
                 <span class="sidebar-text">Popular Instructors</span>
               </a>
             </li>
-          </ul>
-        </div>
-        <div
-          class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
-          role="list"
-          id="submenu-app"
-          aria-expanded="false"
-        >
-        <ul class="flex-column nav">
-          <li
-            class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
-          >
-            <a
-              class="nav-link"
-              href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
-            >
-              <span class="sidebar-text">Pembelajaran Perlu Evaluasi</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div
-        class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
-        role="list"
-        id="submenu-app"
-        aria-expanded="false"
-      >
-        <ul class="flex-column nav">
-          <li
-            class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
-          >
-            <a
-              class="nav-link"
-              href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
-            >
-              <span class="sidebar-text">Materi Perlu Evaluasi</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div
-          class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
-          role="list"
-          id="submenu-app"
-          aria-expanded="false"
-        >
-          <ul class="flex-column nav">
             <li
-              class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
-            >
-              <a
-                class="nav-link"
-                href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
-              >
-                <span class="sidebar-text">Top Penyelenggaraan Pembelajaran Terbaik</span>
+              class="nav-item {% if 'bootstrap-tables' in segment and 'evaluation_page' in request.path %} active {% endif %}"
+              style="
+              align-items: center; 
+              padding: 10px; 
+              background-color: {{ 
+                '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+              '#f4f4f4'}};
+              color: white; 
+              border-radius: 5px; 
+              text-decoration: none; 
+              margin-top: 10px;
+              transition: background-color 0.3s ease;
+              height:40px;
+            ">
+              <a href="{{ url_for('authentication_blueprint.popular_materials_page') }}">
+                <span class="sidebar-text">Pembelajaran Evaluasi</span>
+              </a>
+            </li>
+            <li
+              class="nav-item {% if 'bootstrap-tables' in segment and 'material_evaluation_page' in request.path %} active {% endif %}"
+              style="
+              align-items: center; 
+              padding: 10px; 
+              background-color: {{ 
+                '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+              '#f4f4f4'}};
+              color: white; 
+              border-radius: 5px; 
+              text-decoration: none; 
+              margin-top: 10px;
+              transition: background-color 0.3s ease;
+              height:40px;
+            ">
+              <a href="{{ url_for('authentication_blueprint.popular_materials_page') }}">
+                <span class="sidebar-text">Materi Perlu Evaluasi</span>
+              </a>
+            </li>
+            <li
+              class="nav-item {% if 'bootstrap-tables' in segment and 'top_learning_page' in request.path %} active {% endif %}"
+              style="
+              align-items: center; 
+              padding: 10px; 
+              background-color: {{ 
+                '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.popular_materials_page' else 
+              '#ddf0f6' if request.endpoint == 'authentication_blueprint.top_instructors_page' else 
+              '#f4f4f4'}};
+              color: white; 
+              border-radius: 5px; 
+              text-decoration: none; 
+              margin-top: 10px;
+              transition: background-color 0.3s ease;
+              height:40px;
+            ">
+              <a href="{{ url_for('authentication_blueprint.popular_materials_page') }}">
+                <span class="sidebar-text">Top Pembelajaran</span>
               </a>
             </li>
           </ul>
         </div>
       </li>
+
       <!-- <li class="nav-item {% if 'page-' in segment %} active {% endif %}">
         <span
           class="nav-link collapsed d-flex justify-content-between align-items-center"
@@ -454,32 +433,48 @@
           </ul>
         </div>
       </li> -->
-      <li class="nav-item">
-        <a
-          target="_blank"
-          href="{{ url_for('authentication_blueprint.logout') }}"
+      <!-- <li class="nav-item">
+        <a target="_blank" href="{{ url_for('authentication_blueprint.logout') }}"
           class="btn d-flex align-items-center justify-content-center btn-upgrade-pro"
-          style="background-color: #d1d1d1"
-        >
+          style="background-color: #d1d1d1">
           <span class="sidebar-icon">
-            <svg
-              class="icon icon-xs text-danger me-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              ></path>
+            <svg class="icon icon-xs text-danger me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
             </svg>
           </span>
           <span>Logout</span>
         </a>
+      </li> -->
+
+      <li>
+        <a target="_blank" href="{{ url_for('authentication_blueprint.logout') }}" style="
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 10px; 
+            background-color: rgb(255, 136, 136);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 18px;
+            height:40px;
+          " class="btn d-flex align-items-center justify-content-center btn-upgrade-pro">
+          <span class="sidebar-icon" style="margin-right: 20px; margin-left: 5px;">
+            <svg class="icon icon-xs " fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+          </span>
+          <span style="font-weight: normal; flex: 1; text-align: left;">
+            Logout
+          </span>
+        </a>
       </li>
+
     </ul>
   </div>
 </nav>

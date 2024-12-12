@@ -1,440 +1,166 @@
-{% extends "layouts/base.html" %} {% block title %} Dashboard {% endblock %} {%
-block stylesheets %}
-<!-- Tambahkan CSS khusus halaman di sini -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css"
-/>
-{% endblock stylesheets %} {% block content %}
-<div class="py-4">
-  <div class="dropdown">
-    <button
-      class="btn btn-gray-800 d-inline-flex align-items-center me-2 dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="true"
-      aria-expanded="false"
+<li>
+  <span data-bs-toggle="collapse" data-bs-target="#submenu-app">
+    <span
+      href=""
+      style="
+        display: flex; 
+        align-items: center; 
+        padding: 10px; 
+        background-color: {{ 'blue' if request.endpoint == '' else 'green' }}; 
+        color: white; 
+        border-radius: 5px; 
+        text-decoration: none; 
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+        
+      "
     >
-      <i class="bi bi-plus-circle me-2"></i>
-      New Task
-    </button>
-    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-      <a
-        class="dropdown-item d-flex align-items-center"
-        href="#"
-        data-bs-toggle="modal"
-        data-bs-target="#uploadModal"
+      <span class="sidebar-icon">
+        <svg
+          class="icon icon-xs me-2"
+          fill="white"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+          style="width: 20px; height: 20px"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </span>
+      <span
+        class="text"
+        style="margin-left: 8px; font-weight: bold; color: white"
       >
-        <i class="bi bi-cloud-upload text-gray-400 me-2"></i>
-        Upload Files
-      </a>
-    </div>
-  </div>
-</div>
-
-{% if processed_data %}
-<div class="row g-4 mb-4">
-  <!-- Card Sentimen Positif -->
-  <div class="col-12 col-sm-6 col-xl-4">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body d-flex align-items-center">
-        <div class="icon-shape icon-shape-primary rounded me-4 p-4">
-          <i class="bi bi-emoji-smile fs-1"></i>
-        </div>
-        <div>
-          <span class="d-block h6 text-gray-400 mb-0">Sentimen Positif</span>
-          <h2 class="h1 fw-extrabold mb-2">
-            {{ processed_data.sentiment_counts.get('Positif', 0) }}
-          </h2>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card Sentimen Netral -->
-  <div class="col-12 col-sm-6 col-xl-4">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body d-flex align-items-center">
-        <div class="icon-shape icon-shape-secondary rounded me-4 p-4">
-          <i class="bi bi-emoji-neutral fs-1"></i>
-        </div>
-        <div>
-          <span class="d-block h6 text-gray-400 mb-0">Sentimen Netral</span>
-          <h2 class="h1 fw-extrabold mb-2">
-            {{ processed_data.sentiment_counts.get('Netral', 0) }}
-          </h2>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card Sentimen Negatif -->
-  <div class="col-12 col-sm-6 col-xl-4">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body d-flex align-items-center">
-        <div class="icon-shape icon-shape-tertiary rounded me-4 p-4">
-          <i class="bi bi-emoji-frown fs-1"></i>
-        </div>
-        <div>
-          <span class="d-block h6 text-gray-400 mb-0">Sentimen Negatif</span>
-          <h2 class="h1 fw-extrabold mb-2">
-            {{ processed_data.sentiment_counts.get('Negatif', 0) }}
-          </h2>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-<!-- Modal Upload Files -->
-<div
-  class="modal fade"
-  id="uploadModal"
-  tabindex="-1"
-  aria-labelledby="uploadModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="uploadModalLabel">Upload Files</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form method="post" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="file_csv" class="form-label"
-              >Choose file CSV Feedback</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="file_csv"
-              name="file_csv"
-              accept=".csv"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="file_excel" class="form-label"
-              >Choose file Excel Instruktur</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="file_excel"
-              name="file_excel"
-              accept=".xlsx,.xls"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">Analisa</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Duplicate Modal (renamed) -->
-<div
-  class="modal fade"
-  id="uploadModal2"
-  tabindex="-1"
-  aria-labelledby="uploadModalLabel2"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="uploadModalLabel2">Upload Files</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <!-- Upload Form -->
-        <form method="post" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="fileUpload" class="form-label"
-              >Choose file csv feedback</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="file_csv"
-              name="file_csv"
-              accept=".csv"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="fileUpload" class="form-label"
-              >Choose file csv Instruktur</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="file_excel"
-              name="file_excel"
-              accept=".xlsx,.xls"
-            />
-          </div>
-          <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Analisa</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-12 mb-4">
-    <div class="card bg-yellow-100 border-0 shadow">
-      <div class="card-header d-flex justify-content-center align-items-center">
-        <h2 class="h5 mb-0">Sentimen Komentar Terbuka</h2>
-      </div>
-      <div class="card-body">
-        <div>
-          {{ processed_data.plot_url1 | safe if processed_data.plot_url1 }}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- <div class="row g-4 mb-5">
-        <div class="col-12 col-xl-8">
-            <div class="card border-0 shadow h-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h2 class="h5 mb-0">10 Materi Pembelajaran Terbaik</h2>
-                    <a href="{{ url_for('authentication_blueprint.top_materials_page') }}" class="btn btn-sm btn-primary">Lihat Detail</a>
-                </div>
-                <div class="card-body p-4">
-                    <div class="chart-container">
-                        {{ processed_data.plot_url2 | safe if processed_data.plot_url2 }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-xl-4">
-            <div class="card border-0 shadow h-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h2 class="h5 mb-0">Materi Terpopuler</h2>
-                    <a href="{{ url_for('authentication_blueprint.popular_materials_page') }}" class="btn btn-sm btn-primary">Lihat Detail</a>
-                </div>
-                <div class="card-body p-4">
-                    <div class="chart-container">
-                        {{ processed_data.plot_url4 | safe if processed_data.plot_url4 }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-<div class="row mb-4">
-  <div class="col-12">
-    <div class="card border-0 shadow">
-      <div
-        class="card-header d-flex justify-content-between align-items-center"
+        Sentiments Data
+      </span>
+      <span class="link-arrow">
+        <svg
+          class="icon icon-sm"
+          fill="white"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </span>
+    </span>
+  </span>
+  <div
+    class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+    role="list"
+    id="submenu-app"
+    aria-expanded="false"
+  >
+    <ul class="flex-column nav">
+      <li
+        class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
       >
-        <h2 class="h5 mb-0">10 Materi Pembelajaran Terbaik</h2>
         <a
           href="{{ url_for('authentication_blueprint.top_materials_page') }}"
-          class="btn btn-sm btn-primary"
-          >Lihat Detail</a
         >
-      </div>
-      <div class="card-body p-4">
-        <div class="chart-container">
-          {{ processed_data.plot_url2 | safe if processed_data.plot_url2 }}
-        </div>
-      </div>
-    </div>
+          <span class="sidebar-text">Best Learning</span>
+        </a>
+      </li>
+    </ul>
   </div>
-</div>
 
-<div class="row mb-4">
-  <div class="col-12">
-    <div class="card border-0 shadow">
-      <div
-        class="card-header d-flex justify-content-between align-items-center"
+  <div
+    class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+    role="list"
+    id="submenu-app"
+    aria-expanded="false"
+  >
+    <ul class="flex-column nav">
+      <li
+        class="{% if 'bootstrap-tables' in segment %} active {% endif %}"
       >
-        <h2 class="h5 mb-0">Materi Terpopuler</h2>
         <a
           href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
-          class="btn btn-sm btn-primary"
-          >Lihat Detail</a
         >
-      </div>
-      <div class="card-body p-4">
-        <div class="chart-container">
-          {{ processed_data.plot_url4 | safe if processed_data.plot_url4 }}
-        </div>
-      </div>
-    </div>
+          <span class="sidebar-text">Most Pupular Learning</span>
+        </a>
+      </li>
+    </ul>
   </div>
-</div>
 
-<div class="row mb-4">
-  <div class="col-12">
-    <div class="card border-0 shadow">
-      <div
-        class="card-header d-flex justify-content-between align-items-center"
+  <div
+    class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+    role="list"
+    id="submenu-app"
+    aria-expanded="false"
+  >
+    <ul class="flex-column nav">
+      <li
+        class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}"
       >
-        <h2 class="h5 mb-0">10 Instruktur Terbaik</h2>
         <a
           href="{{ url_for('authentication_blueprint.top_instructors_page') }}"
-          class="btn btn-sm btn-primary"
-          >Lihat Detail</a
         >
-      </div>
-      <div class="card-body p-4">
-        <div class="chart-container">
-          {{ processed_data.plot_url5 | safe if processed_data.plot_url5 }}
-        </div>
-      </div>
-    </div>
+          <span class="sidebar-text">Popular Instructors</span>
+        </a>
+      </li>
+    </ul>
   </div>
-</div>
-{% endif %}
-<!-- <div class="row">
-        <div class="col-12 mb-4">
-            <div class="card bg-yellow-100 border-0 shadow">
-                <div class="card-body ">
-                    <div id="dev"></div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-<div
-  class="modal fade"
-  id="uploadModal"
-  tabindex="-1"
-  aria-labelledby="uploadModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="uploadModalLabel">Upload Files</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <!-- Upload Form -->
-        <form method="post" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="fileUpload" class="form-label"
-              >Choose file csv feedback</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="file_csv"
-              name="file_csv"
-              accept=".csv"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="fileUpload" class="form-label"
-              >Choose file csv Instruktur</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="file_excel"
-              name="file_excel"
-              accept=".xlsx,.xls"
-            />
-          </div>
-          <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Analisa</button>
-          </div>
-        </form>
-      </div>
-    </div>
+  <div
+    class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+    role="list"
+    id="submenu-app"
+    aria-expanded="false"
+  >
+    <ul class="flex-column nav">
+      <li
+        class="n{% if 'bootstrap-tables' in segment %} active {% endif %}"
+      >
+        <a
+          href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
+        >
+          <span class="sidebar-text">Pembelajaran Evaluasi</span>
+        </a>
+      </li>
+    </ul>
   </div>
-</div>
+  <div
+    class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+    role="list"
+    id="submenu-app"
+    aria-expanded="false"
+  >
+    <ul class="flex-column nav">
+      <li
+        class="n{% if 'bootstrap-tables' in segment %} active {% endif %}"
+      >
+        <a
+          href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
+        >
+          <span class="sidebar-text">Materi Perlu Evaluasi</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 
-<script>
-  d3.csv(
-    "https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv",
-    function (err, rows) {
-      if (err) {
-        console.error("Error loading the CSV data:", err);
-        return;
-      }
-
-      function unpack(rows, key) {
-        return rows.map(function (row) {
-          return row[key];
-        });
-      }
-
-      var trace1 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Suplai Chain",
-        x: unpack(rows, "Date"),
-        y: unpack(rows, "AAPL.High").map((val) => parseFloat(val)),
-        line: { color: "#17BECF" },
-      };
-
-      var trace2 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Batubara",
-        x: unpack(rows, "Date"),
-        y: unpack(rows, "AAPL.Low").map((val) => parseFloat(val)),
-        line: { color: "#7F7F7F" },
-      };
-
-      var trace3 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Inovasi Strategis",
-        x: unpack(rows, "Date"),
-        y: unpack(rows, "AAPL.Open").map((val) => parseFloat(val)),
-        line: { color: "#1F77B4" },
-      };
-
-      // Trace untuk AAPL Close
-      var trace4 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Hydrogen",
-        x: unpack(rows, "Date"),
-        y: unpack(rows, "AAPL.Close").map((val) => parseFloat(val)),
-        line: { color: "#FF7F0E" },
-      };
-
-      // Trace untuk AAPL Volume
-      var trace5 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Boiler",
-        x: unpack(rows, "Date"),
-        y: unpack(rows, "AAPL.Volume").map((val) => parseFloat(val)),
-        line: { color: "#2CA02C" },
-      };
-
-      var layout = {
-        title: "Tren AAPL",
-        xaxis: { rangeslider: { range: ["2012-06-01", "2014-06-01"] } },
-      };
-
-      Plotly.newPlot("chart", [trace1, trace2, trace3, trace4, trace5], layout);
-    }
-  );
-</script>
-
-{% endblock content %}
+  <div
+    class="multi-level collapse {% if 'tables-bootstrap-' in segment %} show {% endif %}"
+    role="list"
+    id="submenu-app"
+    aria-expanded="false"
+  >
+    <ul class="flex-column nav">
+      <li
+        class="{% if 'bootstrap-tables' in segment %} active {% endif %}"
+      >
+        <a
+          href="{{ url_for('authentication_blueprint.popular_materials_page') }}"
+        >
+          <span class="sidebar-text">Top Pembelajaran</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</li>

@@ -1,13 +1,19 @@
 {% extends "layouts/base.html" %} {% block title %}Dashboard{% endblock %} {%
 block content %}
-<div class="py-4">
+<div class="py-4 d-flex justify-content-end">
   <!-- Dropdown Button -->
   <div class="dropdown">
     <button
-      class="btn btn-gray-800 d-inline-flex align-items-center me-2 dropdown-toggle"
+      class="btn d-inline-flex align-items-center me-2 dropdown-toggle"
       data-bs-toggle="dropdown"
       aria-haspopup="true"
       aria-expanded="false"
+      style="
+        outline: 2px solid #c0dceb;
+        background-color: #ddf0f6;
+        color: #1285c4;
+        font-size: small;
+      "
     >
       <svg
         class="icon icon-xs me-2"
@@ -56,8 +62,11 @@ block content %}
   <div class="col-12 col-sm-6 col-xl-4">
     <div class="card border-0 shadow h-100">
       <div class="card-body d-flex align-items-center">
-        <div class="icon-shape icon-shape-primary rounded me-4 p-4">
-          <i class="bi bi-emoji-smile fs-1"></i>
+        <div
+          class="icon-shape rounded me-4 p-4"
+          style="background-color: #feffb1"
+        >
+          <i class="bi bi-emoji-smile fs-1" style="color:#A9AB1A "></i>
         </div>
         <div>
           <span class="d-block h6 text-gray-400 mb-0">Sentimen Positif</span>
@@ -73,8 +82,11 @@ block content %}
   <div class="col-12 col-sm-6 col-xl-4">
     <div class="card border-0 shadow h-100">
       <div class="card-body d-flex align-items-center">
-        <div class="icon-shape icon-shape-secondary rounded me-4 p-4">
-          <i class="bi bi-emoji-neutral fs-1"></i>
+        <div
+          class="icon-shape rounded me-4 p-4"
+          style="background-color: #96d3c7"
+        >
+          <i class="bi bi-emoji-neutral fs-1" style="color: #3c8778"></i>
         </div>
         <div>
           <span class="d-block h6 text-gray-400 mb-0">Sentimen Netral</span>
@@ -90,8 +102,11 @@ block content %}
   <div class="col-12 col-sm-6 col-xl-4">
     <div class="card border-0 shadow h-100">
       <div class="card-body d-flex align-items-center">
-        <div class="icon-shape icon-shape-tertiary rounded me-4 p-4">
-          <i class="bi bi-emoji-frown fs-1"></i>
+        <div
+          class="icon-shape rounded me-4 p-4"
+          style="background-color: #bebadb"
+        >
+          <i class="bi bi-emoji-frown fs-1" style="color: #8b83c2"></i>
         </div>
         <div>
           <span class="d-block h6 text-gray-400 mb-0">Sentimen Negatif</span>
@@ -105,11 +120,11 @@ block content %}
 </div>
 <div class="row">
   <div class="col-12 mb-4">
-    <div class="card bg-yellow-100 border-0 shadow">
-      <div class="card-header d-flex justify-content-center align-items-center">
+    <div class="card border-0 shadow" style="width: 1230px; height: 520px">
+      <div class="card-header d-flex align-items-center">
         <h2 class="h5 mb-0">Sentimen Komentar Terbuka</h2>
       </div>
-      <div class="card-body">
+      <div style="width: 1200px; height: 100px; margin-bottom: 20px">
         <div>
           {{ processed_data.plot_url1 | safe if processed_data.plot_url1 }}
         </div>
