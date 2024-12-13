@@ -145,6 +145,8 @@ class Config(object):
     if GITHUB_ID and GITHUB_SECRET:
          SOCIAL_AUTH_GITHUB  = True
 
+    RECAPTCHA_SITE_KEY = os.getenv('RECAPTCHA_SITE_KEY', '6LfSYJoqAAAAAAaWxz3b4gsFknDqbpx4EOvDV6LX')
+    RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA_SECRET_KEY', '6LfSYJoqAAAAAOTwZJFisiOVshwvDaRCTJbimudc')
 
 class ProductionConfig(Config):
     DEBUG = False

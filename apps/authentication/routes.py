@@ -2,8 +2,8 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-
-from flask import Flask,render_template, redirect, request, url_for
+import requests
+from flask import Flask,render_template, redirect, request, url_for, current_app
 from flask_login import (
     current_user,
     login_user,
@@ -359,6 +359,20 @@ def login_github():
 def login():
     login_form = LoginForm(request.form)
     if 'login' in request.form:
+
+        recaptcha_response = request.form.get('g-recaptcha-response')
+        secret_key = current_app.config['RECAPTCHA_SECRET_KEY']
+        verify_url = 'https://www.google.com/recaptcha/api/siteverify'
+        payload = {'secret': secret_key, 'response': recaptcha_response}
+        recaptcha_verify = requests.post(verify_url, data=payload).json()
+
+        if not recaptcha_verify.get('success'):
+            return render_template(
+                'accounts/login.html',
+                msg='Invalid reCAPTCHA. Please try again.',
+                form=login_form
+            )
+
 
         # read form data
         username = request.form['username']
